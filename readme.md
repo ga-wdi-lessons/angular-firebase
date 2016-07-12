@@ -12,23 +12,18 @@ You've heard that Postgresql is not our only database option.  Today, we'll inve
 
 We will be using the AngularFire library to access Firebase.
 
-Let's learn a little about both by skimming the [AngularFire Intro](https://www.firebase.com/docs/web/libraries/angular/guide/intro-to-angularfire.html).  Unfortunately, they will not allow all of us to sign up for free accounts because we are all sharing the same IP address and they have limits.  If you have an account feel free to create your own Firebase and use it during this lesson.
+Let's learn a little about both by skimming the [AngularFire Intro](https://www.firebase.com/docs/web/libraries/angular/guide/intro-to-angularfire.html). Unfortunately, they will not allow all of us to sign up for free accounts because we are all sharing the same IP address and they have limits.  If you have an account feel free to create your own Firebase and use it during this lesson.
 
-## Demos (10 min)
+<!-- AM: Do they need to skim Firebase docs? Leaning no. -->
+<!-- AM: Include sign-up instructions. -->
 
-### Tetris
+## [AngularFire](https://www.firebase.com/docs/web/libraries/angular/)
 
-Before we start working with Firebase and AngularFire, let's see it in action.  Visit the page for the [Tetris Example](https://www.firebase.com/tutorial/#session/gf3bu09wvlf).
+AngularFire is a library for connecting Angular to Firebase. Similar to ActiveRecord and Sequelize. We will be using the AngularFire library to access Firebase from Angular.  They provide a [few tutorials](https://www.firebase.com/docs/web/libraries/angular/) and [many examples](https://www.firebase.com/docs/web/libraries/angular/examples.html).  Like the Tetris game we saw earlier.
 
-Open another browser window to view the database changes, in real-time: https://gf3bu09wvlf.firebaseio-demo.com/.  Then press play.
+## Walkthrough: A To-Do App
 
-See how the database is updated as each block lands on the board?  This database is updated in real-time to store game data.
-
-### Quickstart
-
-When you have some time, I recommend you follow the [AngularFire Quickstart](https://www.firebase.com/docs/web/libraries/angular/quickstart.html).  Through that, you will create a simple html page that will let you play with AngularFire.  Right now, I'll show you what real-time, three-way binding looks like.
-
-All that is possible with just the few lines of code.
+**[Click here](\todo.md)**
 
 ## Websockets
 
@@ -39,11 +34,6 @@ Picture HTTP as the our postal system, you send out some letters to a friend ove
 Whereas Websockets is more like a phone call.  You have the ability to hold a conversation, talking at the same time.  Once you have initiated a connection with the server, both an you can send messages, as needed.
 
 ![Web Sockets lifetime](http://www.pubnub.com/blog/wp-content/uploads/2014/09/WebSockets-Diagram.png)
-
-
-## [AngularFire](https://www.firebase.com/docs/web/libraries/angular/)
-
-AngularFire is a library for connecting Angular to Firebase.  Similar to ActiveRecord and Sequelize.  We will be using the AngularFire library to access Firebase from Angular.  They provide a [few tutorials](https://www.firebase.com/docs/web/libraries/angular/) and [many examples](https://www.firebase.com/docs/web/libraries/angular/examples.html).  Like the Tetris game we saw earlier.
 
 
 ### Grumbler and Firebase
@@ -138,7 +128,7 @@ We need to connect to the remote Firebase.  From our reading, we know that we st
 - Listen for any changes in the data stored at this location via [`on`](https://www.firebase.com/docs/web/api/query/on.html).
 
 ```js
-connectedRef.on("value", ...
+connectedRef.on("value", ...)
 ```
 
 #### What makes a resource? (5 min)
@@ -216,7 +206,7 @@ Q. What do you see?  Nothing? Why?
 Looking in our controller, we see:
 
 ```js
-Grumble.save(this.grumble,...
+Grumble.save(this.grumble,...)
 ```
 
 This prompts us to add `save` to our Grumble interface:
@@ -346,7 +336,7 @@ Timings:
 
 
 Hints:
-- There just may be other places that need ``$id`.
+- There just may be other places that need `$id`.
 - `mockComment = { authorName: 'REPLACE ME', created_at: '01/01/77', content: "Please replace me?" };`
 
 
@@ -378,7 +368,7 @@ $ firebase open
 
 ## [optional] Zoom zoom
 
-Let's "study" Websockets just a bit more.
+Lets study Websockets just a bit more.
 
 https://www.chrome.com/racer
 
@@ -401,4 +391,4 @@ https://www.chrome.com/racer
 - [And again](http://toddmotto.com/digging-into-angulars-controller-as-syntax/)
 
 ## Screencasts
-- [WDI6](https://youtu.be/tpCYtV0NYEs).  It's missing the first portion (approx. 1hr)
+- [WDI6](https://youtu.be/tpCYtV0NYEs).  Its missing the first portion (approx. 1hr)
