@@ -2,7 +2,7 @@
 
 > Do not code along. Just sit back and watch. You'll have an opportunity to give Firebase a spin in a little bit.
 
-We'll take a first dive into Firebase by creating a simple todo app. The model here will be a simple one: a todo with a `content` attribute.
+We'll take a first dive into Firebase by creating a simple todo app. The model here will be a simple one: a todo with a `text` attribute.
 
 ## Bootstrap an Angular Application
 
@@ -223,11 +223,59 @@ function TodoControllerFunction($firebaseArray){
 
 > **`$firebaseArray(ref)`** - This generates a synchronized array from whatever is passed in as an argument. In this case, it is the "todos" reference in our Firebase DB.
 
-Because we already have `ng-repeat` set up in our index view, we should be able to see the todos in our Firebase DB in the browser.
+So that we can see these todos in the browser, let's add an `ng-repeat` directive to our index view...
 
-## New / Edit
+```html
+<h1>Todos</h1>
+
+<div ng-repeat="todo in vm.todos">
+  <input type="text" data-ng-model="todo.text">
+</div>
+```
+
+## New
 
 Let's start by giving the user the ability to create todos and add them to the database. We'll begin by adding a form to the index view...
+
+```html
+<h1>Todos</h1>
+
+<div ng-repeat="todo in vm.todos">
+  <input type="text" data-ng-model="todo.text">
+</div>
+<br/>
+
+<!-- .addTodo() will be triggered whenever a user clicks the submit button or hits enter on the input field. -->
+<form data-ng-submit="vm.addTodo()">
+  <input data-ng-model="vm.newTodoText">
+  <button type="submit">Add Todo</button>
+</form>
+```
+
+> `.newTodoText` is a value that we are defining in our view. It acts as a staging area for the text content of a new todo.
+
+```js
+function TodoControllerFunction($firebaseArray){
+  var vm = this;
+  var ref = firebase.database().ref().child("todos");
+  vm.todos = $firebaseArray(ref);
+
+  vm.addTodo = function(){
+    vm.todos.$add({
+      text: vm.newTodoText
+    }).then(function(){
+      // After we create a new todo, clear the "Add Todo" input field.
+      vm.newTodoText = "";
+    })
+  }
+}
+```
+
+> **`$add`** - The AngularFire method used to create something in a Firebase DB.
+
+## Edit
+
+Next up: edit functionality. Whenever a user makes a change to the input field inside of `ng-repeat`, we want that change to be immediately reflected in the database. Let's implement that by adding a `ng-change` directive to that input. It will trigger an `update` method in our controller.
 
 ```html
 <h1>Todos</h1>
@@ -242,6 +290,8 @@ Let's start by giving the user the ability to create todos and add them to the d
   <button type="submit">Add Todo</button>
 </form>
 ```
+
+Now let's define `.update` in our controller. It will make use of AngularFire's `$save` method.
 
 ```js
 function TodoControllerFunction($firebaseArray){
@@ -266,11 +316,9 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`$add`** - The AngularFire method used to create something in a Firebase DB.
->
 > **`$save`** - The AngularFire method used to update something in a Firebase DB.
 
-## Add Delete Functionality
+## Delete
 
 Let's make it so that each todo has a delete button right next to it. Whenever that button is clicked, it triggers a `delete` method defined in our controller...
 
