@@ -3,7 +3,6 @@
 - Explain what AngularFire is and how it differs from Firebase.
 - Create and configure a Firebase back-end.
 - Create a Javascript front-end application that communicates with a Firebase back-end.
-- Deploy your app to Firebase Hosting.
 
 ## Framing
 
