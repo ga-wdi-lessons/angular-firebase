@@ -429,16 +429,20 @@ Time to add some content to `show.controller.js`, including a `vm.grumbles` Fire
 })();
 ```
 
-Next we need to define the individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method that is triggered once all the grumbles -- `vm.grumbles` -- have been retrieved from the database.
+Next we need to define the individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method.
 
 ```js
 // js/grumbles/show.controller.js
 
 function GrumbleShowControllerFunction($stateParams, $firebaseArray){
   var vm = this;
-  var ref = firebase.database().ref().child("grumbles");
-  vm.grumbles = $firebaseArray(ref).$loaded().then(function(grumbles){
-    vm.grumble = grumbles.$getRecord($stateParams.id);
+
+  // This time, ref contains a reference to a specific grumble.
+  var ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
+
+  // Then we retrieve a $firebaseObject based on ref. Once that asynchronous action is done, we save the resulting grumble to `vm.grumble`.
+  $firebaseObject(ref).$loaded().then(function(grumble){
+    vm.grumble = grumble
   });
 }
 ```
@@ -512,10 +516,8 @@ Now define an `.update` method in the show controller. This will make use of som
   function GrumbleShowControllerFunction($stateParams, $firebaseObject){
     var vm = this;
 
-    // This time, ref contains a reference to a specific grumble.
     var ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
 
-    // Then we retrieve a $firebaseObject based on ref. Once that asynchronous action is done, we save the resulting grumble to `vm.grumble`.
     $firebaseObject(ref).$loaded().then(function(grumble){
       vm.grumble = grumble
     });
