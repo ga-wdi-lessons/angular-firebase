@@ -548,4 +548,4 @@ Grumblr looks pretty boring. Take a break from Angular and Javascript and make i
 
 ### If You're Sick of Grumblr...
 
-Add Firebase to an app of your own. It can be an earlier project, homework assignment or something else entirely!
+Add Firebase to an app of your own. It can be a previous lab, project, homework assignment or something else entirely!
