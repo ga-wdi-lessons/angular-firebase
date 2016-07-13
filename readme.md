@@ -61,5 +61,5 @@ Now it's your turn. For the remainder of the lesson, you will be adding Firebase
 - [Sample AngularFire App](https://www.firebase.com/docs/web/examples.html)
 - [Firebase Hosting](https://firebase.google.com/docs/hosting/quickstart)
 - [Firebase CLI Tools](https://github.com/firebase/firebase-tools)
-- [Intro to Websockets](http://www.html5rocks.com/en/tutorials/websockets/basics/).
+- [Intro to Websockets](http://www.html5rocks.com/en/tutorials/websockets/basics/)
 - [AngularFire2 - The Official Library for Firebase and Angular 2](https://github.com/angular/angularfire2)
