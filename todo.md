@@ -161,7 +161,7 @@ angular
   ])
 ```
 
-> **`firebase`**
+> **`firebase`** - We now have access to this module because we linked to the Firebase CDN.
 
 ...and then our controller...
 
@@ -178,7 +178,7 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`$firebaseArray`**
+> **`$firebaseArray`** - This method creates a synchronized array, binding a collection of data in a Firebase DB to a collection in an Angular application. So think of it as a form of two-way binding between Angular and the DB.
 
 ## Synchronize Todos with Database
 
@@ -205,9 +205,11 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`firebase.database()`**
+> **`firebase.database()`** - Indicates that we're accessing the database portion of the Firebase library. Remember, Firebase offers more than just database services.
 >
-> **`.ref().child("todos")`**
+> **`.ref().`** - Stands for "reference." Everything in a Firebase DB is a reference, whether it's a collection of key-value pairs or just a single key-value pair. When we write out `.ref()` with no argument, it means we are accessing the root directory of our database.
+>
+> **`child("todos")`** - This method drills down to a particular reference in our Firebase DB. In this case, we are accessing the "todos" reference.
 
 Next we want to set `this.grumbles` to the content of the `todos` section of our Firebase DB.
 
@@ -219,7 +221,7 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`$firebaseArray(ref)`**
+> **`$firebaseArray(ref)`** - This generates a synchronized array from whatever is passed in as an argument. In this case, it is the "todos" reference in our Firebase DB.
 
 ## Add Read, Create and Update Functionality
 
@@ -262,9 +264,9 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`$add`**
+> **`$add`** - The AngularFire method used to create something in a Firebase DB.
 >
-> **`$save`**
+> **`$save`** - The AngularFire method used to update something in a Firebase DB.
 
 ## Add Delete Functionality
 
@@ -312,4 +314,4 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`.$remove`** - The equivalent of ngResource's `.delete` or `.remove`
+> **`.$remove`** - The AngularFire method used to delete something from a Firebase DB.
