@@ -34,7 +34,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 <html lang="en" data-ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
-  <title>Firebase Practice</title>
+  <title>Todo App</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
@@ -77,7 +77,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
 <html lang="en" data-ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
-  <title>Firebase Practice</title>
+  <title>Todo App</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
