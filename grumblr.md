@@ -141,7 +141,17 @@ Create a `data.json` file containing the following...
 ]
 ```
 
-Then go back to the `Data` tab under `Realtime Database`. Click the three vertical buttons towards the right of the screen and you should see an option to "Import JSON". Click that and upload `data.json`. If successful, your DB should now be populated with some data.
+Now let's import this JSON into our database. We want to import it to a section of our DB dedicated to Grumbles. We can do this by adding the word "grumbles" to the end of our DB's root URL. It would look something like this...
+
+```
+https://console.firebase.google.com/project/grumblr-47bcc/database/data/grumbles
+```
+
+> `data` is the root directory of our database. `grumbles` is where we want to store our Grumbles.
+
+By visiting this URL, we are actually creating a "reference" to "grumbles" (i.e., creating a "grumbles" section in our database).
+
+On the resulting page, click the `Data` tab under `Realtime Database`. Then click the three vertical buttons towards the right of the screen and you should see an option to "Import JSON". Click that and upload `data.json`. If successful, your DB should now be populated with some data.
 
 ## Inject Firebase
 
@@ -529,6 +539,8 @@ As we mentioned earlier, Firebase is a PaaS, meaning it offers more than just a 
 ### Factories & Services
 
 Create a factory or service that handles all of the Firebase database synchronization for you. You should be able to inject this factory/service into a controller and call methods that allow you execute CRUD functionality on Grumbles from within the controller.
+
+> Start simple and create a factory or service that just returns the `ref` to the database. From there, think about how you could export a `$firebaseArray`, `$firebaseObject` or even the methods that we use to interact with a Firebase DB (e.g., `$add`, $`save`).
 
 ### Styling
 

@@ -4,7 +4,7 @@
 
 We'll take a first dive into Firebase by creating a simple todo app. The model here will be a simple one: a todo with a `content` attribute.
 
-### Bootstrap an Angular Application
+## Bootstrap an Angular Application
 
 Let's start by creating an application app with a single module and controller.
 
@@ -46,7 +46,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 </html>
 ```
 
-### Add Firebase Credentials
+## Add Firebase Credentials
 
 In order for our application to interact with a Firebase database, we need to provide it with the proper credentials. We can do this by visiting the Firebase Console -- [https://console.firebase.google.com/](https://console.firebase.google.com/) -- in the browser and creating a DB.
 
@@ -95,7 +95,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
 </head>
 ```
 
-### Update Firebase Permissions
+## Update Firebase Permissions
 
 Because we are not using Firebase's auth functionality in this example, we need to update our database permissions so that anybody can read or write do it. We can do this by returning to the page for our database in the Firebase Console and clicking the "Database" option in the left sidebar. Then, click the `Rules` tab under the `Realtime Database` header.
 
@@ -113,8 +113,6 @@ Once there, modify the JSON you see so that it looks like this...
 When that's done, click "Publish".
 
 > You'll get a warning message about your database being public. You can "Dismiss" it.
-
-### Import JSON
 
 ## Import JSON
 
@@ -139,10 +137,19 @@ Create a `data.json` file containing the following...
 ]
 ```
 
-Then go back to the `Data` tab under `Realtime Database`. Click the three vertical buttons towards the right of the screen and you should see an option to "Import JSON". Click that and upload `data.json`. If successful, your DB should now be populated with some data.
+Now let's import this JSON into our database. We want to import it to a section of our DB dedicated to Todos. We can do this by adding the word "todos" to the end of our DB's root URL. It would look something like this...
 
+```
+https://console.firebase.google.com/project/todoapp-47bcc/database/data/todos
+```
 
-### Inject Firebase and AngularFire Dependencies
+> `data` is the root directory of our database. `todos` is where we want to store our Todos.
+
+By visiting this URL, we are actually creating a "reference" to "todos" (i.e., creating a "todos" section in our database).
+
+On the resulting page, click the `Data` tab under `Realtime Database`. Then click the three vertical buttons towards the right of the screen and you should see an option to "Import JSON". Click that and upload `data.json`. If successful, your DB should now be populated with some data.
+
+## Inject Firebase and AngularFire Dependencies
 
 Let's start using Firebase and AngularFire in our app. We'll start by injecting the proper dependencies into our module...
 
@@ -173,7 +180,7 @@ function TodoControllerFunction($firebaseArray){
 
 > **`$firebaseArray`**
 
-### Synchronize Todos with Database
+## Synchronize Todos with Database
 
 Just like the rest of the Angular apps we've made in class, we're going to save data to a value in our controller, like so...
 
@@ -214,7 +221,7 @@ function TodoControllerFunction($firebaseArray){
 
 > **`$firebaseArray(ref)`**
 
-### Add Read, Create and Update Functionality
+## Add Read, Create and Update Functionality
 
 We can't test our code quite yet because there's nothing in the Firebase DB. Let's give our app the ability to read, create and update todos so we can see Firebase in action...
 
@@ -259,7 +266,7 @@ function TodoControllerFunction($firebaseArray){
 >
 > **`$save`**
 
-### Add Delete Functionality
+## Add Delete Functionality
 
 Let's make it so that each todo has a delete button right next to it. Whenever that button is clicked, it triggers a `delete` method defined in our controller...
 
