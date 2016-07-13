@@ -305,4 +305,4 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-> **`.$remove`**
+> **`.$remove`** - The equivalent of ngResource's `.delete` or `.remove`
