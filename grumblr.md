@@ -405,31 +405,7 @@ Don't forget to link to this new controller in `index.html`...
 <script src="js/grumbles/show.controller.js"></script>
 ```
 
-Time to add some content to `show.controller.js`, including a `vm.grumbles` Firebase array identical to the one in the index controller...
-
-```js
-// js/grumbles/show.controller.js
-
-"use strict";
-
-(function(){
-  angular
-    .module("grumbles")
-    .controller("GrumbleShowController", [
-      "$stateParams",
-      "$firebaseArray",
-      GrumbleShowControllerFunction
-    ])
-
-  function GrumbleShowControllerFunction($stateParams, $firebaseArray){
-    var vm = this;
-    var ref = firebase.database().ref().child("grumbles");
-    vm.grumbles = $firebaseArray(ref);
-  }
-})();
-```
-
-Next we need to define the individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method.
+Time to add some content to `show.controller.js`. In it we'll define an individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method.
 
 ```js
 // js/grumbles/show.controller.js
