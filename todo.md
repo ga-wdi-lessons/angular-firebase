@@ -180,7 +180,7 @@ function TodoControllerFunction($firebaseArray){
 
 > **`$firebaseArray`** - This method creates a synchronized array, binding a collection of data in a Firebase DB to a collection in an Angular application. So think of it as a form of two-way binding between Angular and the DB.
 
-## Synchronize Todos with Database
+## Synchronize Todos with Database / Index
 
 Just like the rest of the Angular apps we've made in class, we're going to save data to a value in our controller, like so...
 
@@ -223,9 +223,11 @@ function TodoControllerFunction($firebaseArray){
 
 > **`$firebaseArray(ref)`** - This generates a synchronized array from whatever is passed in as an argument. In this case, it is the "todos" reference in our Firebase DB.
 
-## Add Read, Create and Update Functionality
+Because we already have `ng-repeat` set up in our index view, we should be able to see the todos in our Firebase DB in the browser.
 
-We can't test our code quite yet because there's nothing in the Firebase DB. Let's give our app the ability to read, create and update todos so we can see Firebase in action...
+## New / Edit
+
+Let's start by giving the user the ability to create todos and add them to the database. We'll begin by adding a form to the index view...
 
 ```html
 <h1>Todos</h1>
