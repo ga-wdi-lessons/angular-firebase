@@ -1,7 +1,5 @@
 # Todo App
 
-> Do not code along. Just sit back and watch. You'll have an opportunity to give Firebase a spin in a little bit.
-
 We'll take a first dive into Firebase by creating a simple todo app. The model here will be a simple one: a todo with a `text` attribute.
 
 ## Bootstrap an Angular Application
