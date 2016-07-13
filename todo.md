@@ -31,7 +31,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 ```html
 <!-- index.html -->
 
-<html lang="en" data-ng-app="sampleApp">
+<html lang="en" data-ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
   <title>Firebase Practice</title>
@@ -74,7 +74,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
 ```html
 <!-- index.html -->
 
-<html lang="en" data-ng-app="sampleApp">
+<html lang="en" data-ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
   <title>Firebase Practice</title>
@@ -157,7 +157,7 @@ Let's start using Firebase and AngularFire in our app. We'll start by injecting 
 angular
   .module("todoApp", ["firebase"])
   .controller("TodoController", [
-    SampleControllerFunction
+    TodoControllerFunction
   ])
 ```
 
