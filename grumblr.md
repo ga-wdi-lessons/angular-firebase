@@ -481,4 +481,55 @@ Let's add a form to `show.html`. When submitted, it should trigger a yet-to-be-d
 
 ### Controller
 
-Now define an `.update` method in the show controller...
+Now define an `.update` method in the show controller. This will make use of some terminology we haven't seen yet...
+
+```js
+// js/grumbles/show.controller.js
+
+"use strict";
+
+(function(){
+  angular
+    .module("grumbles")
+    .controller("GrumbleShowController", [
+      "$stateParams",
+      "$firebaseObject",  // We are now using $firebaseObject, not $firebaseArray.
+      GrumbleShowControllerFunction
+    ]);
+
+  function GrumbleShowControllerFunction($stateParams, $firebaseObject){
+    var vm = this;
+
+    // This time, ref contains a reference to a specific grumble.
+    var ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
+
+    // Then we retrieve a $firebaseObject based on ref. Once that asynchronous action is done, we save the resulting grumble to `vm.grumble`.
+    $firebaseObject(ref).$loaded().then(function(grumble){
+      vm.grumble = grumble
+    });
+
+    // This method is triggered when the user clicks "Update Grumble".
+    vm.update = function(){
+      vm.grumble.$save();
+    }
+  }
+})();
+```
+
+## Bonuses
+
+Congrats - you've created a version of Grumblr with full Firebase CRUD functionality! If you finish this lab early, we've included some bonuses below for you to try out.
+
+### Deploy Grumblr Using Firebase Hosting
+
+As we mentioned earlier, Firebase is a PaaS, meaning it offers more than just a realtime database. You can also use Firebase to deploy your application. Get started by looking through [this guide](https://firebase.google.com/docs/hosting/quickstart). This will require installing the Firebase CLI Tools.
+
+> You can also use the Firebase CLI Tools to spin up a server like you have been doing with `http-server`. Give this a shot if you're interesting in learning a bit more about Firebase!
+
+### Factories & Services
+
+Create a factory or service that handles all of the Firebase database synchronization for you. You should be able to inject this factory/service into a controller and call methods that allow you execute CRUD functionality on Grumbles from within the controller.
+
+### Styling
+
+Grumblr looks pretty boring. Take a break from Angular and Javascript and make it look a little better!
