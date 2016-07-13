@@ -545,3 +545,7 @@ Create a factory or service that handles all of the Firebase database synchroniz
 ### Styling
 
 Grumblr looks pretty boring. Take a break from Angular and Javascript and make it look a little better!
+
+### If You're Sick of Grumblr...
+
+Add Firebase to an app of your own. It can be an earlier project, homework assignment or something else entirely!
