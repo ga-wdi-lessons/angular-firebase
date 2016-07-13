@@ -405,7 +405,7 @@ Don't forget to link to this new controller in `index.html`...
 <script src="js/grumbles/show.controller.js"></script>
 ```
 
-Time to add some content to `show.controller.js`. In it we'll define an individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method.
+Time to add some content to `show.controller.js`. In it we'll define an individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method. We will do this using `$firebaseObject` in place of `$firebaseArray`.
 
 ```js
 // js/grumbles/show.controller.js
@@ -432,8 +432,6 @@ function GrumbleShowControllerFunction($stateParams, $firebaseObject){
 ```
 
 > **`.$loaded`** - We can only chain `.then()` to `$firebaseArray(ref)` if we place `$loaded()` between them. `$loaded()` returns a promise once `$firebaseArray(ref)` is done pulling all the Grumbles from the database.
->
-> **`.$getRecord`** - This method allows us to retrieve a particular item in a Firebase array. `$.getRecord` takes a key (in this case, the id stored in `$stateParams.id`) as an argument.
 
 ### View
 
