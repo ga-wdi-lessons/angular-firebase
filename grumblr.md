@@ -426,7 +426,7 @@ Time to add some content to `show.controller.js`, including a `vm.grumbles` Fire
     var ref = firebase.database().ref().child("grumbles");
     vm.grumbles = $firebaseArray(ref);
   }
-});
+})();
 ```
 
 Next we need to define the individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method that is triggered once all the grumbles -- `vm.grumbles` -- have been retrieved from the database.
