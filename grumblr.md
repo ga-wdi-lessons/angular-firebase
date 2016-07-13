@@ -434,7 +434,15 @@ Next we need to define the individual grumble -- `vm.grumble` -- that we want to
 ```js
 // js/grumbles/show.controller.js
 
-function GrumbleShowControllerFunction($stateParams, $firebaseArray){
+angular
+  .module("grumblr")
+  .controller("TodoController", [
+    "$stateParams",
+    "$firebaseObject",
+    GrumbleShowControllerFunction
+  ]);
+
+function GrumbleShowControllerFunction($stateParams, $firebaseObject){
   var vm = this;
 
   // This time, ref contains a reference to a specific grumble.
