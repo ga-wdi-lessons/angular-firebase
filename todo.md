@@ -69,16 +69,89 @@ You should now get a notification with a code snippet that looks something like 
 
 > You should see actual values for all the keys in the `config` object.
 
+Go ahead and place that `<script>` directly in your HTML like so...
+
+```html
+<!-- index.html -->
+
+<html lang="en" data-ng-app="sampleApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Practice</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "API-KEY-GOES-HERE",
+      authDomain: "AUTH-DOMAIN-GOES-HERE",
+      databaseURL: "https://database-url-goes-here.firebaseio.com",
+      storageBucket: "storage-bucket-goes-here.appspot.com",
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="app.js"></script>
+</head>
+```
+
+### Update Firebase Permissions
+
+Because we are not using Firebase's auth functionality in this example, we need to update our database permissions so that anybody can read or write do it. We can do this by returning to the page for our database in the Firebase Console and clicking the "Database" option in the left sidebar. Then, click the `Rules` tab under the `Realtime Database` header.
+
+Once there, modify the JSON you see so that it looks like this...
+
+```json
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+```
+
+When that's done, click "Publish".
+
+> You'll get a warning message about your database being public. You can "Dismiss" it.
+
+### Import JSON
+
+## Import JSON
+
+Let's add some data to our DB so that there's something to read. Firebase allows us to seed the database by importing a JSON file.
+
+Create a `data.json` file containing the following...
+
+```json
+[
+  {
+    "text": "Gym"
+  },
+  {
+    "text": "Tan"
+  },
+  {
+    "text": "Laundry"
+  },
+  {
+    "text": "Repeat"
+  }
+]
+```
+
+Then go back to the `Data` tab under `Realtime Database`. Click the three vertical buttons towards the right of the screen and you should see an option to "Import JSON". Click that and upload `data.json`. If successful, your DB should now be populated with some data.
+
+
 ### Inject Firebase and AngularFire Dependencies
 
 Let's start using Firebase and AngularFire in our app. We'll start by injecting the proper dependencies into our module...
 
 ```js
 angular
-    .module("todoApp", ["firebase"])
-    .controller("TodoController", [
-      SampleControllerFunction
-    ])
+  .module("todoApp", ["firebase"])
+  .controller("TodoController", [
+    SampleControllerFunction
+  ])
 ```
 
 > **`firebase`**
@@ -87,15 +160,15 @@ angular
 
 ```js
 angular
-    .module("todoApp", ["firebase"])
-    .controller("TodoController", [
-      "$firebaseArray",
-      TodoControllerFunction
-    ])
+  .module("todoApp", ["firebase"])
+  .controller("TodoController", [
+    "$firebaseArray",
+    TodoControllerFunction
+  ])
 
-    function TodoControllerFunction($firebaseArray){
+function TodoControllerFunction($firebaseArray){
 
-    }
+}
 ```
 
 > **`$firebaseArray`**
@@ -106,15 +179,15 @@ Just like the rest of the Angular apps we've made in class, we're going to save 
 
 ```js
 angular
-    .module("todoApp", ["firebase"])
-    .controller("TodoController", [
-      "$firebaseArray",
-      TodoControllerFunction
-    ])
+  .module("todoApp", ["firebase"])
+  .controller("TodoController", [
+    "$firebaseArray",
+    TodoControllerFunction
+  ])
 
-    function TodoControllerFunction($firebaseArray){
-      this.todos = [] // Collection of todos goes here.
-    }
+function TodoControllerFunction($firebaseArray){
+  this.todos = [] // Collection of todos goes here.
+}
 ```
 
 The plan now is to devote a section of our Firebase DB to storing todos. We'll create this section by adding the below code to our `TodoControllerFunction`...
