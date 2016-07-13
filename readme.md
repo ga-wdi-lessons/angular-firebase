@@ -4,7 +4,7 @@
 - Create and configure a Firebase back-end.
 - Create a Javascript front-end application that communicates with a Firebase back-end.
 
-## Framing
+## Framing (5 minutes / 0:05)
 
 Up until this point, we've used Postgres and SQL to persist data. Today we'll be exploring an alternative: Firebase.
 
@@ -37,24 +37,29 @@ One way to connect an Angular application to a Firebase DB is **AngularFire**.
 
 AngularFire is a Javascript library created by Firebase. It provides us with an intuitive means of interacting with a database not unlike ActiveRecord or ngResource. We will be using the AngularFire library to access Firebase from Angular. We'll explore how to use it by building a todo app later on in this lesson but if you'd like to learn more, [the official documentation is a good place to start](https://github.com/firebase/angularfire).
 
-## Walkthrough: A To-Do App
+## Walkthrough: A To-Do App (40 minutes / 0:45)
 
 To demonstrate how to use Firebase and Angular together, let's create a simple todo app...
 
 **[Click here](\todo.md)**
 
-## You Do: Grumblr and Firebase
+## Break (10 minutes / 0:55)
+
+## You Do: Grumblr and Firebase (60 minutes / 1:55)
 
 Now it's your turn. For the remainder of the lesson, you will be adding Firebase to Grumblr...
 
 **[Click here](\grumblr.md)**
 
-## Closing / Questions
+## Break (10 minutes / 2:05)
+
+## Closing / Questions (10 minutes / 2:15)
 
 ## Resources
 
-- [AngularFire Quickstart](https://www.firebase.com/docs/web/libraries/angular/quickstart.html).  - [Firebase examples](https://www.firebase.com/docs/web/examples.html)
-- [Firebase Hosting](https://www.firebase.com/docs/hosting/quickstart.html)
-- [Simple (ruby) Server](http://www.benjaminoakes.com/2013/09/13/ruby-simple-http-server-minimalist-rake/)
-- [Controller as](http://www.johnpapa.net/angularjss-controller-as-and-the-vm-variable/)
-- [And again](http://toddmotto.com/digging-into-angulars-controller-as-syntax/)
+- [AngularFire Quickstart](https://github.com/firebase/angularfire/blob/master/docs/quickstart.md)
+- [Sample AngularFire App](https://www.firebase.com/docs/web/examples.html)
+- [Firebase Hosting](https://firebase.google.com/docs/hosting/quickstart)
+- [Firebase CLI Tools](https://github.com/firebase/firebase-tools)
+- [Intro to Websockets](http://www.html5rocks.com/en/tutorials/websockets/basics/).
+- [AngularFire2 - The Official Library for Firebase and Angular 2](https://github.com/angular/angularfire2)
