@@ -212,7 +212,7 @@ function GrumbleIndexControllerFunction($firebaseArray){
 
 > Let's also store a reference to `this` in a `vm` variable so we don't have to worry about any scope issues moving forward.
 
-When you visit `http://localhost:3000/#/grumbles`, you should now see a list of all the Grumbles in the database.
+When you visit `http://localhost:8080/#/grumbles`, you should now see a list of all the Grumbles in the database.
 
 ## New
 
