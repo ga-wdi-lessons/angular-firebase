@@ -221,6 +221,8 @@ When you visit `http://localhost:3000/#/grumbles`, you should now see a list of 
 Let's give the user the ability to create a new Grumble. We'll add this functionality to our index (i.e., we will not be creating a separate new state). Let's go ahead and add a form to our index view...
 
 ```html
+<!-- js/grumbles/index.html -->
+
 <h2>These are all the Grumbles</h2>
 
 <div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
@@ -281,7 +283,7 @@ Before we move onto our show state, let's add some delete functionality to our i
 Each grumble should have a delete button next to it. When it is clicked, it should trigger a delete method defined in our controller that removes the Grumble from our view and database. The method takes the Grumble in question as an argument.
 
 ```html
-<!-- index.html -->
+<!-- js/grumbles/index.html -->
 
 <h2>These are all the Grumbles</h2>
 
@@ -374,7 +376,7 @@ angular
 Let's update each Grumble in our index so that it is a link to its respective show page. The important thing to note is that, since we're using Firebase, we need to write out `$id` when accessing the id of a given Grumble.
 
 ```html
-<!-- index.html -->
+<!-- js/grumbles/index.html -->
 
 <h2>These are all the Grumbles</h2>
 
@@ -450,7 +452,7 @@ function GrumbleShowControllerFunction($stateParams, $firebaseArray){
 Let's update `show.html` so that we can view this data in the browser...
 
 ```html
-<!-- show.html -->
+<!-- js/grumbles/show.html -->
 
 <h2>This is a Grumble</h2>
 
