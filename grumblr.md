@@ -412,7 +412,7 @@ Time to add some content to `show.controller.js`. In it we'll define an individu
 
 angular
   .module("grumbles")
-  .controller("TodoController", [
+  .controller("GrumbleShowController", [
     "$stateParams",
     "$firebaseObject",
     GrumbleShowControllerFunction
