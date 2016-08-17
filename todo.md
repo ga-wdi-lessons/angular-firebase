@@ -38,7 +38,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
   <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
   <script src="app.js"></script>
 </head>
-<body ng-controller="TodoController as TodoControllerViewModel">
+<body ng-controller="TodoController as vm">
   <h1>Todos</h1>
 </body>
 </html>
