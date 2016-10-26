@@ -9,49 +9,18 @@ We'll be starting where the `ui-router` class left off. Clone down the below cod
 ```bash
 $ git clone git@github.com:ga-wdi-exercises/grumblr_angular.git
 $ cd grumblr_angular
-$ git checkout -b grumblr-firebase 2.0.0
+$ git checkout firebase-starter
 ```
-
-> If you already have this repo cloned down, you can just run the third line in the above instructions.
-
-## Setup CDNs
-
-Begin by including the Firebase and AngularFire CDNs in your main `index.html` file...
-
-```html
-<!-- index.html -->
-
-<!DOCTYPE html>
-<html data-ng-app="grumblr">
-  <head>
-    <title>Angular</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
-
-    <script src="js/app.js"></script>
-    <script src="js/grumbles/grumbles.js"></script>
-    <script src="js/grumbles/index.controller.js"></script>
-  </head>
-  <body>
-    <h1>Grumblr</h1>
-    <main data-ui-view></main>
-  </body>
-</html>
-```
-
-> You can get rid of the `ngResource` CDN. We don't need it today.
 
 ## Create Firebase DB
 
 In order for our application to interact with a Firebase database, we need to provide it with the proper credentials. We can do this by visiting the Firebase Console -- [https://console.firebase.google.com/](https://console.firebase.google.com/) -- in the browser and creating a DB.
 
-Click "Create New Project". Give it a name and then click "Create Project". From there you should see three options, each represented by a circle icon. Select the right-most one, `Add Firebase to your web app`.
+Click `"Create New Project"`. Give it a name and then click `"Create Project"`. From there you should see three options, each represented by a circle icon. Select the right-most one, `Add Firebase to your web app`.
 
 You should now get a notification with a code snippet that looks something like this...
 
-```js
+```html
 <script>
   // Initialize Firebase
   var config = {
@@ -71,14 +40,14 @@ Go ahead and place that `<script>` directly in your HTML like so...
 ```html
 <!-- index.html -->
 
-<html lang="en" data-ng-app="sampleApp">
+<html lang="en" data-ng-app="grumblr">
 <head>
   <meta charset="UTF-8">
-  <title>Firebase Practice</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <title>Grumblr</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
-  <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
   <script>
     // Initialize Firebase
     var config = {
@@ -116,7 +85,7 @@ When that's done, click "Publish".
 
 Let's add some data to our DB so that there's something to read. Firebase allows us to seed the database by importing a JSON file.
 
-Create a `data.json` file containing the following...
+Create a `data.json` file in the root directory containing the following...
 
 ```json
 [
@@ -127,13 +96,13 @@ Create a `data.json` file containing the following...
     "photoUrl": "https://splashbase.s3.amazonaws.com/splitshire/regular/SplitShire-85962-384x253.jpg"
   },
   {
-    "authorName": "Adam",
+    "authorName": "Nick",
     "content": "It's wrong to be right.",
     "title": "32 panda bears taking selfies",
     "photoUrl": "https://splashbase.s3.amazonaws.com/unsplash/regular/tumblr_n6es0tRk5w1st5lhmo1_1280.jpg"
   },
   {
-    "authorName": "Andy",
+    "authorName": "Adrian",
     "content": "It always seems impossible, until it's done.",
     "title": "24 shocking T-shirts",
     "photoUrl": "https://splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-ocean-wood-orange-geoffroy-1440x960.jpg"
@@ -141,7 +110,7 @@ Create a `data.json` file containing the following...
 ]
 ```
 
-Now let's import this JSON into our database. We want to import it to a section of our DB dedicated to Grumbles. We can do this by adding the word "grumbles" to the end of our DB's root URL. It would look something like this...
+Now let's import this JSON into our database. We want to import it to a section of our DB dedicated to Grumbles. We can do this by adding the word"grumbles" to **the end of our DB's root URL**. It would look something like this...
 
 ```
 https://console.firebase.google.com/project/grumblr-47bcc/database/data/grumbles
@@ -155,38 +124,41 @@ On the resulting page, click the `Data` tab under `Realtime Database`. Then clic
 
 ## Inject Firebase
 
-Let's inject firebase as a dependency into our `grumbles` sub-module so we can use it throughout our application.
+Let's inject firebase as a dependency into our `grumblr` module so we can use it throughout our application.
 
 ```js
-// js/grumbles/grumbles.js
-
-"use strict";
-
-(function(){
-  angular
-  .module("grumbles", [
+// js/app.js
+angular
+  .module("grumblr", [
+    "ui.router",
     "firebase"
-  ]);
-}());
+  ])
+// ...
 ```
 
 ## Inject $firebaseArray
 
-Now we can inject the services we need to interact with our database -- in this case, just `$firebaseArray` -- into the controller. Let's begin with `index.controller.js`...
+Now we can inject the services we need to interact with our database -- in this case, just `$firebaseArray` -- into the controller. Let's begin with the `GrumbleIndexController`...
 
 ```js
-// js/grumbles/index.controller.js
-
+// js/app.js
 angular
-  .module("grumbles")
+  .module("grumblr", [
+    "ui.router",
+    "firebase"
+  ])
+  .config([
+    "$stateProvider",
+    RouterFunction
+  ])
   .controller("GrumbleIndexController", [
     "$firebaseArray",
     GrumbleIndexControllerFunction
-  ]);
-
-function GrumbleIndexControllerFunction($firebaseArray){
-  this.grumbles = [] // Delete the hard-coded grumbles. We'll replace this in a bit.
-}
+  ])
+// ...
+  function GrumbleIndexControllerFunction($firebaseArray){
+    // ...
+  }
 ```
 
 ## Synchronize with Database / Index
@@ -194,23 +166,26 @@ function GrumbleIndexControllerFunction($firebaseArray){
 Next let's get those grumbles stored in our database to appear on the page. That means we need to establish a link between our controller and the database. We'll do that by defining a reference to the "grumbles" section of our database. We will then generate a `$firebaseArray` using that reference.
 
 ```js
-// js/grumbles/index.controller.js
-
+// js/app.js
 angular
-  .module("grumbles")
+  .module("grumblr", [
+    "ui.router",
+    "firebase"
+  ])
+  .config([
+    "$stateProvider",
+    RouterFunction
+  ])
   .controller("GrumbleIndexController", [
     "$firebaseArray",
     GrumbleIndexControllerFunction
-  ]);
-
-function GrumbleIndexControllerFunction($firebaseArray){
-  var vm = this;
-  var ref = firebase.database().ref().child("grumbles");
-  vm.grumbles = $firebaseArray(ref);
-}
+  ])
+// ...
+  function GrumbleIndexControllerFunction($firebaseArray){
+    let ref = firebase.database().ref().child("grumbles");
+    this.grumbles = $firebaseArray(ref);
+  }
 ```
-
-> Let's also store a reference to `this` in a `vm` variable so we don't have to worry about any scope issues moving forward.
 
 When you visit `http://localhost:8080/#/grumbles`, you should now see a list of all the Grumbles in the database.
 
@@ -221,21 +196,21 @@ When you visit `http://localhost:8080/#/grumbles`, you should now see a list of 
 Let's give the user the ability to create a new Grumble. We'll add this functionality to our index (i.e., we will not be creating a separate new state). Let's go ahead and add a form to our index view...
 
 ```html
-<!-- js/grumbles/index.html -->
+<!-- js/ng-views/index.html -->
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
+<div data-ng-repeat="grumble in vm.grumbles">
   <p>{{grumble.title}}</p>
 </div>
 
 <h2>Create Grumble</h2>
 
-<form data-ng-submit="GrumbleIndexViewModel.create()">
-  <input placeholder="Title" data-ng-model="GrumbleIndexViewModel.newGrumble.title">
-  <input placeholder="Author" data-ng-model="GrumbleIndexViewModel.newGrumble.authorName">
-  <input placeholder="Content" data-ng-model="GrumbleIndexViewModel.newGrumble.content">
-  <input placeholder="Photo URL" data-ng-model="GrumbleIndexViewModel.newGrumble.photoUrl">
+<form data-ng-submit="vm.create()">
+  <input placeholder="Title" data-ng-model="vm.newGrumble.title">
+  <input placeholder="Author" data-ng-model="vm.newGrumble.authorName">
+  <input placeholder="Content" data-ng-model="vm.newGrumble.content">
+  <input placeholder="Photo URL" data-ng-model="vm.newGrumble.photoUrl">
   <button type="submit">Create Grumble</button>
 </form>
 ```
@@ -249,27 +224,19 @@ Note that we are adding a `ng-submit` directive to the form. Whenever the form i
 Let's add that `.create` method to our index controller and fill it with some code that will add the new Grumble to our Firebase DB.
 
 ```js
-// /js/grumbles/index.controller.js
+// js/app.js
 
-angular
-  .module("grumbles")
-  .controller("GrumbleIndexController", [
-    "$firebaseArray",
-    GrumbleIndexControllerFunction
-  ]);
+// ...
+  function GrumbleIndexControllerFunction($firebaseArray){
+    let ref = firebase.database().ref().child("grumbles");
+    this.grumbles = $firebaseArray(ref);
 
-function GrumbleIndexControllerFunction($firebaseArray){
-  var vm = this;
-  var ref = firebase.database().ref().child("grumbles");
-  vm.grumbles = $firebaseArray(ref);
-
-  // This method is triggered whenever the user clicks "Create Grumble".
-  vm.create = function(){
-    vm.grumbles.$add(vm.newGrumble).then(function(){
-      vm.newGrumble = {}; // Once the Grumble has been created, clear the contents of vm.newGrumble.
-    });
+    // This method is triggered whenever the user clicks "Create Grumble".
+    this.create = function(){
+      // Once the Grumble has been created, clear the contents of vm.newGrumble.
+      this.grumbles.$add(this.newGrumble).then( () => this.newGrumble = {} )
+    }
   }
-}
 ```
 
 > Remember, we initialized `newGrumble` in our view so you won't see any mention of `vm.newGrumble = ...` in the controller.
@@ -283,22 +250,22 @@ Before we move onto our show state, let's add some delete functionality to our i
 Each grumble should have a delete button next to it. When it is clicked, it should trigger a delete method defined in our controller that removes the Grumble from our view and database. The method takes the Grumble in question as an argument.
 
 ```html
-<!-- js/grumbles/index.html -->
+<!-- js/ng-views/index.html -->
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
+<div data-ng-repeat="grumble in vm.grumbles">
   <p>{{grumble.title}}</p>
-  <button data-ng-click="GrumbleIndexViewModel.delete(grumble)">Delete Grumble</button>
+  <button data-ng-click="vm.delete(grumble)">Delete Grumble</button>
 </div>
 
 <h2>Create Grumble</h2>
 
-<form data-ng-submit="GrumbleIndexViewModel.create()">
-  <input placeholder="Title" data-ng-model="GrumbleIndexViewModel.newGrumble.title">
-  <input placeholder="Author" data-ng-model="GrumbleIndexViewModel.newGrumble.authorName">
-  <input placeholder="Content" data-ng-model="GrumbleIndexViewModel.newGrumble.content">
-  <input placeholder="Photo URL" data-ng-model="GrumbleIndexViewModel.newGrumble.photoUrl">
+<form data-ng-submit="vm.create()">
+  <input placeholder="Title" data-ng-model="vm.newGrumble.title">
+  <input placeholder="Author" data-ng-model="vm.newGrumble.authorName">
+  <input placeholder="Content" data-ng-model="vm.newGrumble.content">
+  <input placeholder="Photo URL" data-ng-model="vm.newGrumble.photoUrl">
   <button type="submit">Create Grumble</button>
 </form>
 ```
@@ -308,31 +275,25 @@ Each grumble should have a delete button next to it. When it is clicked, it shou
 Now let's define that `delete` method...
 
 ```js
-// /js/grumbles/index.controller.js
+// js/app.js
 
-angular
-  .module("grumbles")
-  .controller("GrumbleIndexController", [
-    "$firebaseArray",
-    GrumbleIndexControllerFunction
-  ]);
+// ...
 
-function GrumbleIndexControllerFunction($firebaseArray){
-  var vm = this;
-  var ref = firebase.database().ref().child("grumbles");
-  vm.grumbles = $firebaseArray(ref);
-  vm.create = function(){
-    vm.grumbles.$add(vm.newGrumble).then(function(){
-      vm.newGrumble = {};
-    });
+  function GrumbleIndexControllerFunction($firebaseArray){
+    let ref = firebase.database().ref().child("grumbles");
+    this.grumbles = $firebaseArray(ref);
+
+    // This method is triggered whenever the user clicks "Create Grumble".
+    this.create = function(){
+      // Once the Grumble has been created, clear the contents of vm.newGrumble.
+      this.grumbles.$add(this.newGrumble).then( () => this.newGrumble = {} )
+    }
+
+    // This method is triggered whenever the user clicks "Delete Grumble".
+    this.delete = function(grumble){ // It takes a grumble as an argument.
+      this.grumbles.$remove(grumble)
+    }
   }
-
-  // This method is triggered whenever the user clicks "Delete Grumble".
-  // It takes a grumble as an argument.
-  vm.delete = function(grumble){
-    vm.grumbles.$remove(grumble)
-  }
-}
 ```
 
 ## Show
@@ -344,108 +305,93 @@ Onto show. First, let's round out the show state in `app.js` by adding `controll
 ```js
 // app.js
 
-angular
-  .module("grumblr", [
-    "ui.router",
-    "grumbles"
-  ])
-  .config([
-    "$stateProvider",
-    RouterFunction
-  ]);
+// ...
 
   function RouterFunction($stateProvider){
     $stateProvider
     .state("grumbleIndex", {
       url: "/grumbles",
-      templateUrl: "js/grumbles/index.html",
+      templateUrl: "js/ng-views/index.html",
       controller: "GrumbleIndexController",
-      controllerAs: "GrumbleIndexViewModel"
+      controllerAs: "vm"
     })
     .state("grumbleShow", {
       url: "/grumbles/:id",
-      templateUrl: "js/grumbles/show.html",
+      templateUrl: "js/ng-views/show.html",
       controller: "GrumbleShowController",
-      controllerAs: "GrumbleShowViewModel"
-    });
+      controllerAs: "vm"
+    })
   }
 ```
 
-### Update `js/grumbles/index.html`
+### Update `js/ng-views/index.html`
 
 Let's update each Grumble in our index so that it is a link to its respective show page. The important thing to note is that, since we're using Firebase, we need to write out `$id` when accessing the id of a given Grumble.
 
 ```html
-<!-- js/grumbles/index.html -->
+<!-- js/ng-views/index.html -->
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
+<div data-ng-repeat="grumble in vm.grumbles">
   <a data-ui-sref="grumbleShow({id: grumble.$id})">{{grumble.title}}</a>
-  <button data-ng-click="GrumbleIndexViewModel.delete(grumble)">Delete Grumble</button>
+  <button data-ng-click="vm.delete(grumble)">Delete Grumble</button>
 </div>
 ```
 
 ### Controller
 
-Now create a `GrumbleShowController` to correspond with the show state.
+Now create a `GrumbleShowController` to correspond with the show state. In this state we are focusing on displaying data associated to one "grumble" and therefore we need to utilize `$firebaseObject` to bind any changes to the individual grumble to our database, and we need `$stateParams` to access the correct grumble.
 
-```bash
-touch js/grumbles/show.controller.js
-```
-
-Don't forget to link to this new controller in `index.html`...
-
-```html
-<!-- index.html -->
-
-<script src="js/app.js"></script>
-<script src="js/grumbles/grumbles.js"></script>
-<script src="js/grumbles/index.controller.js"></script>
-<script src="js/grumbles/show.controller.js"></script>
-```
-
-Time to add some content to `show.controller.js`. In it we'll define an individual grumble -- `vm.grumble` -- that we want to display on the page. In order to do this, we will need to define `vm.grumble` inside of a promise method. We will do this using `$firebaseObject` in place of `$firebaseArray`.
+Let's define that controller and pass the necessary dependencies...
 
 ```js
-// js/grumbles/show.controller.js
-
+// js/app.js
 angular
-  .module("grumbles")
+  .module("grumblr", [
+    "ui.router",
+    "firebase"
+  ])
+  .config([
+    "$stateProvider",
+    RouterFunction
+  ])
+  .controller("GrumbleIndexController", [
+    "$firebaseArray",
+    GrumbleIndexControllerFunction
+  ])
   .controller("GrumbleShowController", [
     "$stateParams",
     "$firebaseObject",
     GrumbleShowControllerFunction
-  ]);
+  ])
 
-function GrumbleShowControllerFunction($stateParams, $firebaseObject){
-  var vm = this;
+// ...
 
-  // This time, ref contains a reference to a specific grumble.
-  var ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
+  function GrumbleShowControllerFunction($stateParams, $firebaseObject){
+    // This time, ref contains a reference to a specific grumble.
+    let ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
 
-  // Then we retrieve a $firebaseObject based on ref. Once that asynchronous action is done, we save the resulting grumble to `vm.grumble`.
-  $firebaseObject(ref).$loaded().then(function(grumble){
-    vm.grumble = grumble
-  });
-}
+    // Then we retrieve a $firebaseObject based on ref. Once that asynchronous action is done, we save the resulting grumble to `this.grumble`.
+    $firebaseObject(ref).$loaded().then(grumble => this.grumble = grumble)
+  }
 ```
 
-> **`.$loaded`** - We can only chain `.then()` to `$firebaseArray(ref)` if we place `$loaded()` between them. `$loaded()` returns a promise once `$firebaseArray(ref)` is done pulling all the Grumbles from the database.
+> **`.$loaded`** - We can only chain `.then()` to `$firebaseObject(ref)` if we place `$loaded()` between them. `$loaded()` returns a promise once `$firebaseObject(ref)` is done pulling the single grumble from the database.
 
 ### View
 
-Let's update `show.html` so that we can view this data in the browser...
+Let's create a new view for our show state. Go ahead and create a new template at `js/ng-views/show.html`, then proceed to write out the necessary view code...
 
 ```html
-<!-- js/grumbles/show.html -->
+<!-- js/ng-views/show.html -->
 
 <h2>This is a Grumble</h2>
 
-<p>{{GrumbleShowViewModel.grumble.title}}</p>
-<p>BY: {{GrumbleShowViewModel.grumble.authorName}}</p>
-<p>{{GrumbleShowViewModel.grumble.content}}</p>
-<img data-ng-src="{{GrumbleShowViewModel.grumble.photoUrl}}">
+<p>{{vm.grumble.title}}</p>
+<p>BY: {{vm.grumble.authorName}}</p>
+<p>{{vm.grumble.content}}</p>
+<img data-ng-src="{{vm.grumble.photoUrl}}">
 ```
 
 ## Edit
@@ -457,64 +403,52 @@ We're almost there! Last order of business is to add edit functionality. The use
 Let's add a form to `show.html`. When submitted, it should trigger a yet-to-be-defined `.update` method in the show controller...
 
 ```html
-<!-- js/grumbles/show.html -->
+<!-- js/ng-views/show.html -->
 
 <h2>This is a Grumble</h2>
 
-<p>{{GrumbleShowViewModel.grumble.title}}</p>
-<p>BY: {{GrumbleShowViewModel.grumble.authorName}}</p>
-<p>{{GrumbleShowViewModel.grumble.content}}</p>
-<img data-ng-src="{{GrumbleShowViewModel.grumble.photoUrl}}">
+<p>{{vm.grumble.title}}</p>
+<p>BY: {{vm.grumble.authorName}}</p>
+<p>{{vm.grumble.content}}</p>
+<img data-ng-src="{{vm.grumble.photoUrl}}">
 
 <h2>Edit Grumble</h2>
 
-<form data-ng-submit="GrumbleShowViewModel.update()">
-  <input placeholder="Title" data-ng-model="GrumbleShowViewModel.grumble.title">
-  <input placeholder="Author" data-ng-model="GrumbleShowViewModel.grumble.authorName">
-  <input placeholder="Content" data-ng-model="GrumbleShowViewModel.grumble.content">
-  <input placeholder="Photo URL" data-ng-model="GrumbleShowViewModel.grumble.photoUrl">
+<form data-ng-submit="vm.update()">
+  <input placeholder="Title" data-ng-model="vm.grumble.title">
+  <input placeholder="Author" data-ng-model="vm.grumble.authorName">
+  <input placeholder="Content" data-ng-model="vm.grumble.content">
+  <input placeholder="Photo URL" data-ng-model="vm.grumble.photoUrl">
   <button type="submit">Update Grumble</button>
 </form>
 ```
 
 ### Controller
 
-Now define an `.update` method in the show controller. This will make use of some terminology we haven't seen yet...
+Now define an `.update` method in the show controller.
 
 ```js
-// js/grumbles/show.controller.js
+// js/app.js
 
-"use strict";
-
-(function(){
-  angular
-    .module("grumbles")
-    .controller("GrumbleShowController", [
-      "$stateParams",
-      "$firebaseObject",  // We are now using $firebaseObject, not $firebaseArray.
-      GrumbleShowControllerFunction
-    ]);
+// ...
 
   function GrumbleShowControllerFunction($stateParams, $firebaseObject){
-    var vm = this;
+    // This time, ref contains a reference to a specific grumble.
+    let ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
 
-    var ref = firebase.database().ref().child("grumbles/" + $stateParams.id);
-
-    $firebaseObject(ref).$loaded().then(function(grumble){
-      vm.grumble = grumble
-    });
+    // Then we retrieve a $firebaseObject based on ref. Once that asynchronous action is done, we save the resulting grumble to `this.grumble`.
+    $firebaseObject(ref).$loaded().then(grumble => this.grumble = grumble)
 
     // This method is triggered when the user clicks "Update Grumble".
-    vm.update = function(){
-      vm.grumble.$save();
+    this.update = function(){
+      this.grumble.$save();
     }
   }
-})();
 ```
 
-## Bonuses
-
 Congrats - you've created a version of Grumblr with full Firebase CRUD functionality! If you finish this lab early, we've included some bonuses below for you to try out.
+
+## Bonuses
 
 ### Deploy Grumblr Using Firebase Hosting
 
