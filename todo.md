@@ -8,20 +8,15 @@ Let's start by creating an application app with a single module and controller.
 
 ```js
 // app.js
-
-"use strict";
-
-(function(){
   angular
     .module("todoApp", [])
     .controller("TodoController", [
       TodoControllerFunction
-    ]);
+    ])
 
   function TodoControllerFunction(){
 
   }
-})
 ```
 
 Next let's create a corresponding `index.html` file. Note that, along with Angular, we have linked to two new CDNs: Firebase and AngularFire.
@@ -33,9 +28,9 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 <head>
   <meta charset="UTF-8">
   <title>Todo App</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
-  <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
   <script src="app.js"></script>
 </head>
 <body ng-controller="TodoController as vm">
@@ -48,11 +43,11 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 
 In order for our application to interact with a Firebase database, we need to provide it with the proper credentials. We can do this by visiting the Firebase Console -- [https://console.firebase.google.com/](https://console.firebase.google.com/) -- in the browser and creating a DB.
 
-Click "Create New Project". Give it a name and then click "Create Project". From there you should see three options, each represented by a circle icon. Select the right-most one, `Add Firebase to your web app`.
+Click `"Create New Project"`. Give it a name and then click `"Create Project"`. From there you should see three options, each represented by a circle icon. Select the right-most one, `Add Firebase to your web app`.
 
 You should now get a notification with a code snippet that looks something like this...
 
-```js
+```html
 <script>
   // Initialize Firebase
   var config = {
@@ -71,14 +66,13 @@ Go ahead and place that `<script>` directly in your HTML like so...
 
 ```html
 <!-- index.html -->
-
 <html lang="en" data-ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
   <title>Todo App</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
-  <script src="https://cdn.firebase.com/libs/angularfire/2.0.0/angularfire.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
   <script>
     // Initialize Firebase
     var config = {
@@ -92,6 +86,8 @@ Go ahead and place that `<script>` directly in your HTML like so...
   <script src="app.js"></script>
 </head>
 ```
+
+> **Note**: no need to worry about obfuscating these keys/urls as Firebase requires authentication for each access via the GUI console.
 
 ## Update Firebase Permissions
 
@@ -110,7 +106,7 @@ Once there, modify the JSON you see so that it looks like this...
 
 When that's done, click "Publish".
 
-> You'll get a warning message about your database being public. You can "Dismiss" it.
+> **Note**: You'll get a warning message about your database being public. You can "Dismiss" it.
 
 ## Import JSON
 
@@ -143,7 +139,7 @@ https://console.firebase.google.com/project/todoapp-47bcc/database/data/todos
 
 > `data` is the root directory of our database. `todos` is where we want to store our Todos.
 
-By visiting this URL, we are actually creating a "reference" to "todos" (i.e., creating a "todos" section in our database).
+By visiting this URL, we are actually creating a "reference" to "todos" (i.e., creating a "todos" section in our database). Firebase saves each piece of data as a reference to a real time url.
 
 On the resulting page, click the `Data` tab under `Realtime Database`. Then click the three vertical buttons towards the right of the screen and you should see an option to "Import JSON". Click that and upload `data.json`. If successful, your DB should now be populated with some data.
 
@@ -180,7 +176,7 @@ function TodoControllerFunction($firebaseArray){
 
 ## Synchronize Todos with Database / Index
 
-Just like the rest of the Angular apps we've made in class, we're going to save data to a value in our controller, like so...
+Just like the rest of the Angular apps we've made in class, we're going to save data to a value in our controller...
 
 ```js
 angular
@@ -195,27 +191,26 @@ function TodoControllerFunction($firebaseArray){
 }
 ```
 
-The plan now is to devote a section of our Firebase DB to storing todos. We'll create this section by adding the below code to our `TodoControllerFunction`...
+ Now we just need to tell our app where it can find the data - the section of our Firebase DB storing todos. We'll connect to our database by adding the below code to our `TodoControllerFunction`...
 
 ```js
 function TodoControllerFunction($firebaseArray){
-  var ref = firebase.database().ref().child("todos");
+  let ref = firebase.database().ref().child("todos");
 }
 ```
 
 > **`firebase.database()`** - Indicates that we're accessing the database portion of the Firebase library. Remember, Firebase offers more than just database services.
 >
-> **`.ref().`** - Stands for "reference." Everything in a Firebase DB is a reference, whether it's a collection of key-value pairs or just a single key-value pair. When we write out `.ref()` with no argument, it means we are accessing the root directory of our database.
+> **`.ref().`** - Stands for "reference." Everything in a Firebase DB is a reference, whether it's a collection of key-value pairs or just a single key-value pair. When we write out `.ref()` with no argument, it means we are accessing the **root** node of our database.
 >
 > **`child("todos")`** - This method drills down to a particular reference in our Firebase DB. In this case, we are accessing the "todos" reference.
 
-Next we want to set `this.grumbles` to the content of the `todos` section of our Firebase DB.
+Great, now that we have reference to where our todos our stored, we need to make them into objects that we can use in our app and that are saved in real time in our database. To do this, we are going to use the `$firebaseArray` method that we injected earlier into this controller/
 
 ```js
 function TodoControllerFunction($firebaseArray){
-  vm = this;
-  var ref = firebase.database().ref().child("todos");
-  vm.todos = $firebaseArray(ref);
+  let ref = firebase.database().ref().child("todos");
+  this.todos = $firebaseArray(ref);
 }
 ```
 
@@ -227,7 +222,7 @@ So that we can see these todos in the browser, let's add an `ng-repeat` directiv
 <h1>Todos</h1>
 
 <div ng-repeat="todo in vm.todos">
-  <input type="text" data-ng-model="todo.text">
+  <input type="text" ng-model="todo.text">
 </div>
 ```
 
@@ -239,41 +234,38 @@ Let's start by giving the user the ability to create todos and add them to the d
 <h1>Todos</h1>
 
 <div ng-repeat="todo in vm.todos">
-  <input type="text" data-ng-model="todo.text">
+  <input type="text" ng-model="todo.text">
 </div>
-<br/>
-
+<br>
 <!-- .addTodo() will be triggered whenever a user clicks the submit button or hits enter on the input field. -->
-<form data-ng-submit="vm.addTodo()">
-  <input data-ng-model="vm.newTodoText">
-  <button type="submit">Add Todo</button>
-</form>
+  <form data-ng-submit="vm.create()">
+    <input type="text" data-ng-model="vm.newTodo.text">
+    <button type="submit">Add Todo</button>
+  </form>
 ```
 
-> `.newTodoText` is a value that we are defining in our view. It acts as a staging area for the text content of a new todo.
+> `vm.newTodo.text` is a value that we are defining in our view. It acts as a staging area for the text content of a new todo.
 
 ```js
 function TodoControllerFunction($firebaseArray){
-  var vm = this;
   var ref = firebase.database().ref().child("todos");
-  vm.todos = $firebaseArray(ref);
+  this.todos = $firebaseArray(ref);
+  this.newTodo = {}
 
-  vm.addTodo = function(){
-    vm.todos.$add({
-      text: vm.newTodoText
-    }).then(function(){
-      // After we create a new todo, clear the "Add Todo" input field.
-      vm.newTodoText = "";
-    })
+  this.addTodo = function(){
+    // After we create a new todo, clear the "New Todo" input field.
+    this.todos.$add(this.newTodo).then( _ => this.newTodo = {} )
   }
 }
 ```
 
 > **`$add`** - The AngularFire method used to create something in a Firebase DB.
+>
+> Since `$add` is asynchronous, after it completes, we then can reinitialize the value bound to the input field.
 
 ## Edit
 
-Next up: edit functionality. Whenever a user makes a change to the input field inside of `ng-repeat`, we want that change to be immediately reflected in the database. Let's implement that by adding a `ng-change` directive to that input. It will trigger an `update` method in our controller.
+Next up: edit functionality. Whenever a user makes a change to the input field inside of `ng-repeat`, we want that change to be immediately reflected in the database. Let's implement that by adding a `ng-change` directive to that input. It will trigger an `update` method we will define in our controller.
 
 ```html
 <h1>Todos</h1>
@@ -281,9 +273,9 @@ Next up: edit functionality. Whenever a user makes a change to the input field i
 <div ng-repeat="todo in vm.todos">
   <input type="text" data-ng-model="todo.text" data-ng-change="vm.update(todo)">
 </div>
-<br/>
+<br>
 
-<form data-ng-submit="vm.addTodo()">
+<form data-ng-submit="vm.create()">
   <input data-ng-model="vm.newTodoText">
   <button type="submit">Add Todo</button>
 </form>
@@ -293,28 +285,23 @@ Now let's define `.update` in our controller. It will make use of AngularFire's 
 
 ```js
 function TodoControllerFunction($firebaseArray){
-  var vm = this;
   var ref = firebase.database().ref().child("todos");
-  vm.todos = $firebaseArray(ref);
+  this.todos = $firebaseArray(ref);
+  this.newTodo = {}
 
-  // This is triggered whenever we click on the "Add Todo" button.
-  vm.addTodo = function(){
-    vm.todos.$add({
-      text: vm.newTodoText
-    }).then(function(){
-      // After we create a new todo, clear the "Add Todo" input field.
-      vm.newTodoText = "";
-    })
+  this.create = function(){
+    // After we create a new todo, clear the "New Todo" input field.
+    this.todos.$add(this.newTodo).then( _ => this.newTodo = {} )
   }
 
   // This is triggered whenever the content of the input field changes.
-  vm.update = function(todo){
-    vm.todos.$save(todo);
+  this.update = function (todo) {
+    this.todos.$save(todo)
   }
 }
 ```
 
-> **`$save`** - The AngularFire method used to update something in a Firebase DB.
+> **`$save`** - The AngularFire method used to update something in a Firebase DB in realtime.
 
 ## Delete
 
@@ -327,9 +314,9 @@ Let's make it so that each todo has a delete button right next to it. Whenever t
   <input type="text" data-ng-model="todo.text" data-ng-change="vm.update(todo)">
   <button data-ng-click="vm.delete(todo)">Delete Todo</button>
 </div>
-<br/>
+<br>
 
-<form data-ng-submit="vm.addTodo()">
+<form data-ng-submit="vm.create()">
   <input data-ng-model="vm.newTodoText">
   <button type="submit">Add Todo</button>
 </form>
@@ -339,27 +326,27 @@ That delete method will remove the todo from the Firebase Array, thus removing i
 
 ```js
 function TodoControllerFunction($firebaseArray){
-  var vm = this;
   var ref = firebase.database().ref().child("todos");
-  vm.todos = $firebaseArray(ref);
+  this.todos = $firebaseArray(ref);
+  this.newTodo = {}
 
-  vm.addTodo = function(){
-    vm.todos.$add({
-      text: vm.newTodoText
-    }).then(function(){
-      vm.newTodoText = "";
-    })
+  this.create = function(){
+    // After we create a new todo, clear the "New Todo" input field.
+    this.todos.$add(this.newTodo).then( _ => this.newTodo = {} )
   }
 
-  vm.update = function(todo){
-    vm.todos.$save(todo);
+  // This is triggered whenever the content of the input field changes.
+  this.update = function (todo) {
+    this.todos.$save(todo)
   }
 
   // This is triggered whenever the delete button is clicked.
-  vm.delete = function(todo){
-    vm.todos.$remove(todo);
+  this.delete = function(todo){
+    this.todos.$remove(todo);
   }
 }
 ```
 
 > **`.$remove`** - The AngularFire method used to delete something from a Firebase DB.
+
+Great, we now have full CRUD functionality for our todo app that is using three-way data-binding to persist data in real time!
