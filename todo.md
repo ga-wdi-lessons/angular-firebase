@@ -77,9 +77,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
     // Initialize Firebase
     var config = {
       apiKey: "API-KEY-GOES-HERE",
-      authDomain: "AUTH-DOMAIN-GOES-HERE",
-      databaseURL: "https://database-url-goes-here.firebaseio.com",
-      storageBucket: "storage-bucket-goes-here.appspot.com",
+      databaseURL: "https://database-url-goes-here.firebaseio.com"
     };
     firebase.initializeApp(config);
   </script>
@@ -87,7 +85,8 @@ Go ahead and place that `<script>` directly in your HTML like so...
 </head>
 ```
 
-> **Note**: no need to worry about obfuscating these keys/urls as Firebase requires authentication for each access via the GUI console.
+> **Note**: we are only including the API Key, and the config for the Database service.
+ FYI, no need to worry about obfuscating these keys/urls as Firebase requires authentication for each access via the GUI console.
 
 ## Update Firebase Permissions
 
@@ -254,7 +253,7 @@ function TodoControllerFunction($firebaseArray){
 
   this.addTodo = function(){
     // After we create a new todo, clear the "New Todo" input field.
-    this.todos.$add(this.newTodo).then( _ => this.newTodo = {} )
+    this.todos.$add(this.newTodo).then( () => this.newTodo = {} )
   }
 }
 ```
@@ -291,7 +290,7 @@ function TodoControllerFunction($firebaseArray){
 
   this.create = function(){
     // After we create a new todo, clear the "New Todo" input field.
-    this.todos.$add(this.newTodo).then( _ => this.newTodo = {} )
+    this.todos.$add(this.newTodo).then( () => this.newTodo = {} )
   }
 
   // This is triggered whenever the content of the input field changes.
@@ -332,7 +331,7 @@ function TodoControllerFunction($firebaseArray){
 
   this.create = function(){
     // After we create a new todo, clear the "New Todo" input field.
-    this.todos.$add(this.newTodo).then( _ => this.newTodo = {} )
+    this.todos.$add(this.newTodo).then( () => this.newTodo = {} )
   }
 
   // This is triggered whenever the content of the input field changes.

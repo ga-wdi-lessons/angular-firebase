@@ -52,9 +52,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
     // Initialize Firebase
     var config = {
       apiKey: "API-KEY-GOES-HERE",
-      authDomain: "AUTH-DOMAIN-GOES-HERE",
-      databaseURL: "https://database-url-goes-here.firebaseio.com",
-      storageBucket: "storage-bucket-goes-here.appspot.com",
+      databaseURL: "https://database-url-goes-here.firebaseio.com"
     };
     firebase.initializeApp(config);
   </script>
