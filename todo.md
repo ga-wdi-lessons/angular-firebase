@@ -85,8 +85,8 @@ Go ahead and place that `<script>` directly in your HTML like so...
 </head>
 ```
 
-> **Note**: we are only including the API Key, and the config for the Database service.
- FYI, no need to worry about obfuscating these keys/urls as Firebase requires authentication for each access via the GUI console.
+> **NOTE**: we are only including the API Key and the config for the Database service.
+ No need to worry about obfuscating these keys/urls as Firebase requires authentication for each access via the GUI console.
 
 ## Update Firebase Permissions
 
@@ -105,7 +105,7 @@ Once there, modify the JSON you see so that it looks like this...
 
 When that's done, click "Publish".
 
-> **Note**: You'll get a warning message about your database being public. You can "Dismiss" it.
+> **NOTE**: You'll get a warning message about your database being public. You can "Dismiss" it.
 
 ## Import JSON
 
@@ -220,8 +220,8 @@ So that we can see these todos in the browser, let's add an `ng-repeat` directiv
 ```html
 <h1>Todos</h1>
 
-<div ng-repeat="todo in vm.todos">
-  <input type="text" ng-model="todo.text">
+<div data-ng-repeat="todo in vm.todos">
+  <input type="text" data-ng-model="todo.text">
 </div>
 ```
 
@@ -232,15 +232,15 @@ Let's start by giving the user the ability to create todos and add them to the d
 ```html
 <h1>Todos</h1>
 
-<div ng-repeat="todo in vm.todos">
-  <input type="text" ng-model="todo.text">
+<div data-ng-repeat="todo in vm.todos">
+  <input type="text" data-ng-model="todo.text">
 </div>
-<br>
-<!-- .addTodo() will be triggered whenever a user clicks the submit button or hits enter on the input field. -->
-  <form data-ng-submit="vm.create()">
-    <input type="text" data-ng-model="vm.newTodo.text">
-    <button type="submit">Add Todo</button>
-  </form>
+
+<!-- .create() will be triggered whenever a user clicks the submit button or hits enter on the input field. -->
+<form data-ng-submit="vm.create()">
+  <input type="text" data-ng-model="vm.newTodo.text">
+  <button type="submit">Add Todo</button>
+</form>
 ```
 
 > `vm.newTodo.text` is a value that we are defining in our view. It acts as a staging area for the text content of a new todo.
@@ -251,7 +251,7 @@ function TodoControllerFunction($firebaseArray){
   this.todos = $firebaseArray(ref);
   this.newTodo = {}
 
-  this.addTodo = function(){
+  this.create = function(){
     // After we create a new todo, clear the "New Todo" input field.
     this.todos.$add(this.newTodo).then( () => this.newTodo = {} )
   }
@@ -272,7 +272,6 @@ Next up: edit functionality. Whenever a user makes a change to the input field i
 <div ng-repeat="todo in vm.todos">
   <input type="text" data-ng-model="todo.text" data-ng-change="vm.update(todo)">
 </div>
-<br>
 
 <form data-ng-submit="vm.create()">
   <input data-ng-model="vm.newTodoText">
@@ -313,7 +312,6 @@ Let's make it so that each todo has a delete button right next to it. Whenever t
   <input type="text" data-ng-model="todo.text" data-ng-change="vm.update(todo)">
   <button data-ng-click="vm.delete(todo)">Delete Todo</button>
 </div>
-<br>
 
 <form data-ng-submit="vm.create()">
   <input data-ng-model="vm.newTodoText">
