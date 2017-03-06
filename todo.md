@@ -24,7 +24,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 ```html
 <!-- index.html -->
 
-<html lang="en" data-ng-app="todoApp">
+<html lang="en" ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
   <title>Todo App</title>
@@ -66,7 +66,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
 
 ```html
 <!-- index.html -->
-<html lang="en" data-ng-app="todoApp">
+<html lang="en" ng-app="todoApp">
 <head>
   <meta charset="UTF-8">
   <title>Todo App</title>
@@ -220,8 +220,8 @@ So that we can see these todos in the browser, let's add an `ng-repeat` directiv
 ```html
 <h1>Todos</h1>
 
-<div data-ng-repeat="todo in vm.todos">
-  <input type="text" data-ng-model="todo.text">
+<div ng-repeat="todo in vm.todos">
+  <input type="text" ng-model="todo.text">
 </div>
 ```
 
@@ -232,13 +232,13 @@ Let's start by giving the user the ability to create todos and add them to the d
 ```html
 <h1>Todos</h1>
 
-<div data-ng-repeat="todo in vm.todos">
-  <input type="text" data-ng-model="todo.text">
+<div ng-repeat="todo in vm.todos">
+  <input type="text" ng-model="todo.text">
 </div>
 
 <!-- .create() will be triggered whenever a user clicks the submit button or hits enter on the input field. -->
-<form data-ng-submit="vm.create()">
-  <input type="text" data-ng-model="vm.newTodo.text">
+<form ng-submit="vm.create()">
+  <input type="text" ng-model="vm.newTodo.text">
   <button type="submit">Add Todo</button>
 </form>
 ```
@@ -270,11 +270,11 @@ Next up: edit functionality. Whenever a user makes a change to the input field i
 <h1>Todos</h1>
 
 <div ng-repeat="todo in vm.todos">
-  <input type="text" data-ng-model="todo.text" data-ng-change="vm.update(todo)">
+  <input type="text" ng-model="todo.text" ng-change="vm.update(todo)">
 </div>
 
-<form data-ng-submit="vm.create()">
-  <input data-ng-model="vm.newTodoText">
+<form ng-submit="vm.create()">
+  <input ng-model="vm.newTodoText">
   <button type="submit">Add Todo</button>
 </form>
 ```
@@ -309,12 +309,12 @@ Let's make it so that each todo has a delete button right next to it. Whenever t
 <h1>Todos</h1>
 
 <div ng-repeat="todo in vm.todos">
-  <input type="text" data-ng-model="todo.text" data-ng-change="vm.update(todo)">
-  <button data-ng-click="vm.delete(todo)">Delete Todo</button>
+  <input type="text" ng-model="todo.text" ng-change="vm.update(todo)">
+  <button ng-click="vm.delete(todo)">Delete Todo</button>
 </div>
 
-<form data-ng-submit="vm.create()">
-  <input data-ng-model="vm.newTodoText">
+<form ng-submit="vm.create()">
+  <input ng-model="vm.newTodoText">
   <button type="submit">Add Todo</button>
 </form>
 ```
@@ -346,4 +346,4 @@ function TodoControllerFunction($firebaseArray){
 
 > **`.$remove`** - The AngularFire method used to delete something from a Firebase DB.
 
-Great, we now have full CRUD functionality for our todo app that is using three-way data-binding to persist data in real time!
+Great, we now have full CRUD functionality for our todo app that is using three-way binding to persist data in real time!

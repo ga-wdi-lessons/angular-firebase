@@ -40,7 +40,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
 ```html
 <!-- index.html -->
 
-<html lang="en" data-ng-app="grumblr">
+<html lang="en" ng-app="grumblr">
 <head>
   <meta charset="UTF-8">
   <title>Grumblr</title>
@@ -198,17 +198,17 @@ Let's give the user the ability to create a new Grumble. We'll add this function
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in vm.grumbles">
+<div ng-repeat="grumble in vm.grumbles">
   <p>{{grumble.title}}</p>
 </div>
 
 <h2>Create Grumble</h2>
 
-<form data-ng-submit="vm.create()">
-  <input placeholder="Title" data-ng-model="vm.newGrumble.title">
-  <input placeholder="Author" data-ng-model="vm.newGrumble.authorName">
-  <input placeholder="Content" data-ng-model="vm.newGrumble.content">
-  <input placeholder="Photo URL" data-ng-model="vm.newGrumble.photoUrl">
+<form ng-submit="vm.create()">
+  <input placeholder="Title" ng-model="vm.newGrumble.title">
+  <input placeholder="Author" ng-model="vm.newGrumble.authorName">
+  <input placeholder="Content" ng-model="vm.newGrumble.content">
+  <input placeholder="Photo URL" ng-model="vm.newGrumble.photoUrl">
   <button type="submit">Create Grumble</button>
 </form>
 ```
@@ -252,18 +252,18 @@ Each grumble should have a delete button next to it. When it is clicked, it shou
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in vm.grumbles">
+<div ng-repeat="grumble in vm.grumbles">
   <p>{{grumble.title}}</p>
-  <button data-ng-click="vm.delete(grumble)">Delete Grumble</button>
+  <button ng-click="vm.delete(grumble)">Delete Grumble</button>
 </div>
 
 <h2>Create Grumble</h2>
 
-<form data-ng-submit="vm.create()">
-  <input placeholder="Title" data-ng-model="vm.newGrumble.title">
-  <input placeholder="Author" data-ng-model="vm.newGrumble.authorName">
-  <input placeholder="Content" data-ng-model="vm.newGrumble.content">
-  <input placeholder="Photo URL" data-ng-model="vm.newGrumble.photoUrl">
+<form ng-submit="vm.create()">
+  <input placeholder="Title" ng-model="vm.newGrumble.title">
+  <input placeholder="Author" ng-model="vm.newGrumble.authorName">
+  <input placeholder="Content" ng-model="vm.newGrumble.content">
+  <input placeholder="Photo URL" ng-model="vm.newGrumble.photoUrl">
   <button type="submit">Create Grumble</button>
 </form>
 ```
@@ -331,9 +331,9 @@ Let's update each Grumble in our index so that it is a link to its respective sh
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in vm.grumbles">
-  <a data-ui-sref="grumbleShow({id: grumble.$id})">{{grumble.title}}</a>
-  <button data-ng-click="vm.delete(grumble)">Delete Grumble</button>
+<div ng-repeat="grumble in vm.grumbles">
+  <a ui-sref="grumbleShow({id: grumble.$id})">{{grumble.title}}</a>
+  <button ng-click="vm.delete(grumble)">Delete Grumble</button>
 </div>
 ```
 
@@ -389,7 +389,7 @@ Let's create a new view for our show state. Go ahead and create a new template a
 <p>{{vm.grumble.title}}</p>
 <p>BY: {{vm.grumble.authorName}}</p>
 <p>{{vm.grumble.content}}</p>
-<img data-ng-src="{{vm.grumble.photoUrl}}">
+<img ng-src="{{vm.grumble.photoUrl}}">
 ```
 
 ## Edit
@@ -408,15 +408,15 @@ Let's add a form to `show.html`. When submitted, it should trigger a yet-to-be-d
 <p>{{vm.grumble.title}}</p>
 <p>BY: {{vm.grumble.authorName}}</p>
 <p>{{vm.grumble.content}}</p>
-<img data-ng-src="{{vm.grumble.photoUrl}}">
+<img ng-src="{{vm.grumble.photoUrl}}">
 
 <h2>Edit Grumble</h2>
 
-<form data-ng-submit="vm.update()">
-  <input placeholder="Title" data-ng-model="vm.grumble.title">
-  <input placeholder="Author" data-ng-model="vm.grumble.authorName">
-  <input placeholder="Content" data-ng-model="vm.grumble.content">
-  <input placeholder="Photo URL" data-ng-model="vm.grumble.photoUrl">
+<form ng-submit="vm.update()">
+  <input placeholder="Title" ng-model="vm.grumble.title">
+  <input placeholder="Author" ng-model="vm.grumble.authorName">
+  <input placeholder="Content" ng-model="vm.grumble.content">
+  <input placeholder="Photo URL" ng-model="vm.grumble.photoUrl">
   <button type="submit">Update Grumble</button>
 </form>
 ```
