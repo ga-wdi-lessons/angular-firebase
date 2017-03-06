@@ -41,7 +41,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
 
 ## Add Firebase Credentials
 
-In order for our application to interact with a Firebase database, we need to provide it with the proper credentials. We can do this by visiting the Firebase Console -- [https://console.firebase.google.com/](https://console.firebase.google.com/) -- in the browser and creating a DB.
+In order for our application to interact with a Firebase database, we need to provide it with the proper credentials. We can do this by visiting the [Firebase Console](https://console.firebase.google.com/) in the browser and creating a DB.
 
 Click `"Create New Project"`. Give it a name and then click `"Create Project"`. From there you should see three options, each represented by a circle icon. Select the right-most one, `Add Firebase to your web app`.
 
