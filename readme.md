@@ -19,9 +19,7 @@ Unlike Postgres, Firebase is a NoSQL database. This means that information is no
 #### Why Use Firebase?
 
 It's fast.
-* Firebase uses Websockets to maintain a constant, open connection between the client and the database. Rather than use a traditional call-and-return system of requests and responses like HTTP, the browser and server are constantly in communication with each other and are immediately aware of changes on either end. Using Firebase, we can establish three-way data binding in an Angular application between the controller, the browser and the database.
-
-> If you're interested in learning more about Websockets, [start here](http://www.html5rocks.com/en/tutorials/websockets/basics/).
+* Firebase uses Websockets to maintain a constant, open connection between the client and the database. Rather than use a traditional call-and-return system of requests and responses like HTTP, the browser and server are constantly in communication with each other and are immediately aware of changes on either end. Using Firebase, we can establish **three-way data binding** in an Angular application between the controller, the browser and the database.
 
 It's user friendly.
 * Firebase's graphical interface means we only need to load up a browser in order to explore what we have in our database.
@@ -29,7 +27,7 @@ It's user friendly.
 Perhaps the biggest selling point: multiple clients can easily use the same database/API.
 * It's just a matter of including the proper credentials in your application.
 
-There are lots of notable apps that use Firebase, including Shazam and NPR One. [There are plenty more](https://firebase.google.com/customers/).
+There are lots of notable apps that use Firebase, including [Shazam](https://www.shazam.com/) and [NPR One](http://one.npr.org/). [There are plenty more](https://firebase.google.com/customers/).
 
 ## AngularFire
 
@@ -63,3 +61,4 @@ Now it's your turn. For the remainder of the lesson, you will be adding Firebase
 - [Firebase CLI Tools](https://github.com/firebase/firebase-tools)
 - [Intro to Websockets](http://www.html5rocks.com/en/tutorials/websockets/basics/)
 - [AngularFire2 - The Official Library for Firebase and Angular 2](https://github.com/angular/angularfire2)
+- [Websockets Basics](http://www.html5rocks.com/en/tutorials/websockets/basics/)
