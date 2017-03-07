@@ -46,7 +46,7 @@ Go ahead and place that `<script>` directly in your HTML like so...
   <title>Grumblr</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
   <script>
     // Initialize Firebase

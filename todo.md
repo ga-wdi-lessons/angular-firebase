@@ -29,7 +29,7 @@ Next let's create a corresponding `index.html` file. Note that, along with Angul
   <meta charset="UTF-8">
   <title>Todo App</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
   <script src="app.js"></script>
 </head>
